@@ -1,0 +1,5 @@
+numpy>=2.0
+matplotlib>=3.8
+# recipe_contract/ only:
+deepseek-recipe==0.2.0
+tokenizers>=0.21
