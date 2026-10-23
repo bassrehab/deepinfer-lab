@@ -24,6 +24,7 @@ SOURCES = {
     "pd_ratio": "Q&A: 'the GPU ratio between P and D is roughly 1:1'",
     "bytes_per_token": "DeepSeek-V4.1-Flash tech report (arXiv 2609.19969): 890 bytes per token of global KV; assumed equal to the persisted block KV",
     "store": "Q&A: '~100 PiB of SSD storage', TTL 3 days (agent) and 7 days (chatbot), 3FS 10+2 erasure coding",
+    "storage_per_gpu": "Q&A: 'about 14.4 TB per GPU measured as logical size; the physical capacity required is larger than that'",
 }
 
 DAY_S = 86_400
@@ -46,6 +47,7 @@ class Params:
     ec_overhead: float = 1.2      # 10+2 erasure coding
     store_pib: float = 100.0
     ttl_days: tuple = (3.0, 7.0)
+    storage_per_gpu_tb: float = 14.4   # logical
 
 
 @dataclass
@@ -107,10 +109,22 @@ def evaluate(p: Params, hit_rate: float, output_share: float) -> Point:
     )
 
 
+def gpus_behind_store(p: Params) -> tuple[float, float]:
+    """GPUs implied by ~100 PiB at 14.4 TB (logical) per GPU.
+
+    Low end: the 100 PiB is physical, so logical capacity is 100 / 1.2.
+    High end: the 100 PiB is already logical.
+    """
+    per_gpu = p.storage_per_gpu_tb * 1e12
+    return p.store_pib * PIB / p.ec_overhead / per_gpu, p.store_pib * PIB / per_gpu
+
+
 def storage_check(p: Params, pt: Point) -> dict:
     cap_tokens = p.store_pib * PIB / (p.bytes_per_token * p.ec_overhead)
     written_per_day = pt.misses + pt.outputs   # misses are computed and written; decode output is written too
+    per_gpu_day_bytes = p.bytes_per_token * written_per_day / pt.gpus_from_revenue
     return {
+        "retention_days_at_14p4tb_per_gpu": p.storage_per_gpu_tb * 1e12 / per_gpu_day_bytes,
         "capacity_tokens": cap_tokens,
         "capacity_as_days_of_served_tokens": cap_tokens / p.tokens_per_day,
         "written_tokens_per_day": written_per_day,
@@ -125,17 +139,36 @@ def sweep(p: Params, output_shares: list[float]) -> list[Point]:
 
 def fmt_table(p: Params, points: list[Point]) -> str:
     head = (f"{'out%':>6} {'hit%':>6} {'$/M blend':>10} {'G(rev)':>8} {'G(cap@1)':>9} {'util':>6} "
-            f"{'rev hit%':>9} {'rev miss%':>10} {'rev out%':>9} {'PiB@3d':>7} {'PiB@7d':>7}")
+            f"{'rev hit%':>9} {'rev miss%':>10} {'rev out%':>9} {'PiB@3d':>7} {'PiB@7d':>7} {'days@14.4TB':>12}")
     rows = [head, "-" * len(head)]
     for q in points:
-        st = storage_check(p, q)["needed_pib_at_ttl"]
+        sc = storage_check(p, q)
+        st = sc["needed_pib_at_ttl"]
         rows.append(
             f"{100*q.output_share:6.2f} {100*q.hit_rate:6.2f} {q.blended_price_per_m:10.4f} "
             f"{q.gpus_from_revenue:8.0f} {q.gpus_from_capacity:9.0f} {q.utilization_needed:6.2f} "
             f"{100*q.revenue_share['hits']:9.1f} {100*q.revenue_share['misses']:10.1f} {100*q.revenue_share['outputs']:9.1f} "
-            f"{st['3d']:7.0f} {st['7d']:7.0f}"
+            f"{st['3d']:7.0f} {st['7d']:7.0f} {sc['retention_days_at_14p4tb_per_gpu']:12.1f}"
         )
     return "\n".join(rows)
+
+
+def february_2025() -> dict:
+    """DeepSeek's own day of V3/R1 traffic, 2025-02-27 12:00 to 2025-02-28 12:00 UTC+8.
+
+    Source: github.com/deepseek-ai/open-infra-index, 202502OpenSourceWeek,
+    day_6_one_more_thing_deepseekV3R1_inference_system_overview.md
+    """
+    inp, hit, out = 608e9, 342e9, 168e9
+    miss, tot, gpus = inp - hit, inp + out, 226.75 * 8
+    p_hit, p_miss, p_out = 0.14, 0.55, 2.19          # R1 list prices, $/M, the basis DeepSeek used
+    rev = (p_hit * hit + p_miss * miss + p_out * out) / 1e6
+    return {
+        "hit_rate": hit / inp, "token_share": {"hits": hit / tot, "misses": miss / tot, "outputs": out / tot},
+        "revenue_share": {"hits": p_hit * hit / 1e6 / rev, "misses": p_miss * miss / 1e6 / rev, "outputs": p_out * out / 1e6 / rev},
+        "gpus": gpus, "revenue_per_day": rev, "revenue_per_gpu_hour": rev / gpus / 24, "tokens_per_gpu_day": tot / gpus,
+        "price_ratio_hit_miss_out": (1.0, p_miss / p_hit, p_out / p_hit),
+    }
 
 
 def main() -> None:
@@ -158,6 +191,7 @@ def main() -> None:
     print("\n  G(rev): GPUs implied by $38/GPU-hour.  G(cap@1): GPUs needed at benchmark throughput all day.")
     print("  util: average/peak utilization that reconciles the two. Above 1.0 means the mix is infeasible at these throughputs.")
     print("  PiB@3d / PiB@7d: SSD needed to retain the computed tokens (misses + outputs) for that TTL at 890 B/token x 1.2 EC. DeepSeek runs ~100 PiB.")
+    print("  days@14.4TB: days of each GPU's computed tokens that 14.4 TB (logical) per GPU holds.")
 
     print("\nSensitivity: decode operating point (from the decode Pareto chart) x prefill batch regime")
     grid = {}
@@ -177,6 +211,37 @@ def main() -> None:
     hi = Params(prefill_tps_gpu=89_500, decode_tps_gpu=22_800)
     print(fmt_table(hi, sweep(hi, shares)))
 
+    lo, hi_g = gpus_behind_store(p)
+    print(f"\nGPUs behind the store: 100 PiB / 14.4 TB per GPU = {lo:,.0f} (100 PiB physical) to {hi_g:,.0f} (100 PiB logical)")
+    print("Where the revenue-implied GPU count meets that range, per operating point:")
+    fine = [x / 10000 for x in range(10, 801)]   # 0.10% .. 8.00% output share
+    meet = {}
+    for dec_label, dec in (("60/rank 14.5K", 14_466), ("64/rank 15.7K", 15_700), ("128/rank 22.8K", 22_800), ("256/rank 26.2K", 26_200)):
+        for pre_label, pre in (("4K batch 60K", 60_000), ("16K batch 81.5K", 81_500), ("64K batch 89.5K", 89_500)):
+            q = Params(prefill_tps_gpu=pre, decode_tps_gpu=dec)
+            pts = [x for x in sweep(q, fine) if lo <= x.gpus_from_revenue <= hi_g]
+            if not pts:
+                continue
+            a, b = pts[0], pts[-1]
+            sa, sb = storage_check(q, a), storage_check(q, b)
+            meet[f"{dec_label} | {pre_label}"] = {"from": {**asdict(a), "storage": sa}, "to": {**asdict(b), "storage": sb}}
+            print(f"  decode {dec_label:15s} prefill {pre_label:16s} output {100*a.output_share:.2f}-{100*b.output_share:.2f}%  "
+                  f"hit {100*b.hit_rate:.1f}-{100*a.hit_rate:.1f}%  util {a.utilization_needed:.2f}-{b.utilization_needed:.2f}  "
+                  f"PiB@3d {sa['needed_pib_at_ttl']['3d']:.0f}-{sb['needed_pib_at_ttl']['3d']:.0f}  PiB@7d {sa['needed_pib_at_ttl']['7d']:.0f}-{sb['needed_pib_at_ttl']['7d']:.0f}  "
+                  f"rev out {100*a.revenue_share['outputs']:.0f}-{100*b.revenue_share['outputs']:.0f}%  rev hit {100*b.revenue_share['hits']:.0f}-{100*a.revenue_share['hits']:.0f}%")
+
+    f = february_2025()
+    print("\nFebruary 2025, DeepSeek's own V3/R1 disclosure (for the then-and-now comparison):")
+    print(f"  hit rate {100*f['hit_rate']:.1f}%   tokens hit/miss/out {100*f['token_share']['hits']:.1f}/{100*f['token_share']['misses']:.1f}/{100*f['token_share']['outputs']:.1f}%   "
+          f"revenue {100*f['revenue_share']['hits']:.1f}/{100*f['revenue_share']['misses']:.1f}/{100*f['revenue_share']['outputs']:.1f}%")
+    print(f"  {f['gpus']:,.0f} H800s, ${f['revenue_per_gpu_hour']:.2f} per GPU-hour at R1 list prices, {f['tokens_per_gpu_day']/1e6:.0f}M tokens per GPU a day")
+    print(f"  price ratio hit:miss:out = 1 : {f['price_ratio_hit_miss_out'][1]:.1f} : {f['price_ratio_hit_miss_out'][2]:.1f}   (2026 off-peak: 1 : {Params().price_miss/Params().price_hit:.0f} : {Params().price_out/Params().price_hit:.0f})")
+    for lbl, dec, o in (("reading A", 14_466, 0.005), ("reading B", 22_800, 0.035)):
+        q = Params(prefill_tps_gpu=81_500, decode_tps_gpu=dec); x = evaluate(q, hit_rate_for_pd_ratio(q, o), o)
+        print(f"  Oct 2026 {lbl}: hit rate {100*x.hit_rate:.1f}%  tokens hit/miss/out {100*x.hits/q.tokens_per_day:.1f}/{100*x.misses/q.tokens_per_day:.1f}/{100*x.outputs/q.tokens_per_day:.2f}%  "
+              f"revenue {100*x.revenue_share['hits']:.1f}/{100*x.revenue_share['misses']:.1f}/{100*x.revenue_share['outputs']:.1f}%  "
+              f"{x.gpus_from_revenue:,.0f} GPUs  {q.tokens_per_day/x.gpus_from_revenue/1e9:.1f}B tokens per GPU a day")
+
     ref = next(x for x in base if abs(x.output_share - 0.005) < 1e-9)
     st = storage_check(p, ref)
     print("\nStorage consistency at the 0.5% output-share point:")
@@ -188,7 +253,9 @@ def main() -> None:
     if args.json:
         out = {"params": asdict(p), "sources": SOURCES,
                "base": [{**asdict(x), "storage": storage_check(p, x)} for x in base],
-               "grid": grid, "storage_at_0p5": st}
+               "grid": grid, "storage_at_0p5": st,
+               "gpus_behind_store": {"physical_100pib": lo, "logical_100pib": hi_g}, "meet_store": meet,
+               "february_2025": february_2025()}
         with open(args.json, "w") as f:
             json.dump(out, f, indent=1)
         print(f"\nwrote {args.json}")

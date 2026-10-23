@@ -16,7 +16,8 @@
   "ttl_days": [
    3.0,
    7.0
-  ]
+  ],
+  "storage_per_gpu_tb": 14.4
  },
  "sources": {
   "tokens_per_day": "DeepInfer doc/inference_deployment_qa.md: 'A single cluster currently serves 155 trillion tokens per day'",
@@ -27,7 +28,8 @@
   "online_efficiency": "Q&A: load balancing reaches 'roughly 80% of a perfectly balanced offline benchmark'",
   "pd_ratio": "Q&A: 'the GPU ratio between P and D is roughly 1:1'",
   "bytes_per_token": "DeepSeek-V4.1-Flash tech report (arXiv 2609.19969): 890 bytes per token of global KV; assumed equal to the persisted block KV",
-  "store": "Q&A: '~100 PiB of SSD storage', TTL 3 days (agent) and 7 days (chatbot), 3FS 10+2 erasure coding"
+  "store": "Q&A: '~100 PiB of SSD storage', TTL 3 days (agent) and 7 days (chatbot), 3FS 10+2 erasure coding",
+  "storage_per_gpu": "Q&A: 'about 14.4 TB per GPU measured as logical size; the physical capacity required is larger than that'"
  },
  "base": [
   {
@@ -49,6 +51,7 @@
     "outputs": 0.23445450430278947
    },
    "storage": {
+    "retention_days_at_14p4tb_per_gpu": 7.341093523921008,
     "capacity_tokens": 105421339592006.0,
     "capacity_as_days_of_served_tokens": 0.6801376747871355,
     "written_tokens_per_day": 2396521153048.5312,
@@ -78,6 +81,7 @@
     "outputs": 0.3062580938958606
    },
    "storage": {
+    "retention_days_at_14p4tb_per_gpu": 5.619941080729691,
     "capacity_tokens": 105421339592006.0,
     "capacity_as_days_of_served_tokens": 0.6801376747871355,
     "written_tokens_per_day": 4793042306097.0625,
@@ -107,6 +111,7 @@
     "outputs": 0.34107732429955456
    },
    "storage": {
+    "retention_days_at_14p4tb_per_gpu": 5.046223599665919,
     "capacity_tokens": 105421339592006.0,
     "capacity_as_days_of_served_tokens": 0.6801376747871355,
     "written_tokens_per_day": 7189563459145.594,
@@ -136,6 +141,7 @@
     "outputs": 0.36163490174285257
    },
    "storage": {
+    "retention_days_at_14p4tb_per_gpu": 4.75936485913404,
     "capacity_tokens": 105421339592006.0,
     "capacity_as_days_of_served_tokens": 0.6801376747871355,
     "written_tokens_per_day": 9586084612194.094,
@@ -165,6 +171,7 @@
     "outputs": 0.38482953349860505
    },
    "storage": {
+    "retention_days_at_14p4tb_per_gpu": 4.472506118602149,
     "capacity_tokens": 105421339592006.0,
     "capacity_as_days_of_served_tokens": 0.6801376747871355,
     "written_tokens_per_day": 14379126918291.156,
@@ -194,6 +201,7 @@
     "outputs": 0.39757956332208977
    },
    "storage": {
+    "retention_days_at_14p4tb_per_gpu": 4.329076748336206,
     "capacity_tokens": 105421339592006.0,
     "capacity_as_days_of_served_tokens": 0.6801376747871355,
     "written_tokens_per_day": 19172169224388.22,
@@ -223,6 +231,7 @@
     "outputs": 0.41120340241963615
    },
    "storage": {
+    "retention_days_at_14p4tb_per_gpu": 4.1856473780702625,
     "capacity_tokens": 105421339592006.0,
     "capacity_as_days_of_served_tokens": 0.6801376747871355,
     "written_tokens_per_day": 28758253836582.33,
@@ -252,6 +261,7 @@
     "outputs": 0.4227936824698446
    },
    "storage": {
+    "retention_days_at_14p4tb_per_gpu": 4.070903881857508,
     "capacity_tokens": 105421339592006.0,
     "capacity_as_days_of_served_tokens": 0.6801376747871355,
     "written_tokens_per_day": 47930423060970.55,
@@ -284,6 +294,7 @@
      "outputs": 0.2201494699032503
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.609217652489491,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 2834868421052.625,
@@ -313,6 +324,7 @@
      "outputs": 0.2822970061659605
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.15420188981871,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 5669736842105.281,
@@ -342,6 +354,7 @@
      "outputs": 0.3116201514364594
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.669196635595127,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 8504605263157.906,
@@ -371,6 +384,7 @@
      "outputs": 0.32869128968082334
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.426694008483337,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 11339473684210.531,
@@ -400,6 +414,7 @@
      "outputs": 0.34774120733306885
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.1841913813715435,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 17009210526315.797,
@@ -429,6 +444,7 @@
      "outputs": 0.35811893318254645
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.0629400678156475,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 22678947368421.047,
@@ -458,6 +474,7 @@
      "outputs": 0.3691351228831396
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.94168875425975,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 34018421052631.58,
@@ -487,6 +504,7 @@
      "outputs": 0.37844836171696056
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.844687703415032,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 56697368421052.625,
@@ -518,6 +536,7 @@
      "outputs": 0.2028722438737923
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.8989288926058325,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 3446710526315.7812,
@@ -547,6 +566,7 @@
      "outputs": 0.2545040519724061
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.7021999517109325,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 6893421052631.594,
@@ -576,6 +596,7 @@
      "outputs": 0.2780962603371306
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.303290304745975,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 10340131578947.375,
@@ -605,6 +626,7 @@
      "outputs": 0.2916123091090477
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.103835481263494,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 13786842105263.156,
@@ -634,6 +656,7 @@
      "outputs": 0.3065092893824107
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.904380657781013,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 20680263157894.734,
@@ -663,6 +686,7 @@
      "outputs": 0.3145434980547967
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.8046532460397713,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 27573684210526.33,
@@ -692,6 +716,7 @@
      "outputs": 0.3230102286572408
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.7049258342985314,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 41360526315789.47,
@@ -721,6 +746,7 @@
      "outputs": 0.3301190165928242
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.6251439049055394,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 68934210526315.8,
@@ -752,6 +778,7 @@
      "outputs": 0.18856689162366017
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.416913069189827,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 4038157894736.8438,
@@ -781,6 +808,7 @@
      "outputs": 0.23238747553816042
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.3954626095371205,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 8076315789473.6875,
@@ -810,6 +838,7 @@
      "outputs": 0.2519003005126391
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.05497912298622,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 12114473684210.531,
@@ -839,6 +868,7 @@
      "outputs": 0.2629393855521726
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.8847373797107676,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 16152631578947.375,
@@ -868,6 +898,7 @@
      "outputs": 0.2749903512157469
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.7144956364353177,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 24228947368421.047,
@@ -897,6 +928,7 @@
      "outputs": 0.28143978669826697
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.629374764797592,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 32305263157894.734,
@@ -926,6 +958,7 @@
      "outputs": 0.28819900899989886
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.5442538931598655,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 48457894736842.11,
@@ -955,6 +988,7 @@
      "outputs": 0.2938447262604393
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.476157195849685,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 80763157894736.83,
@@ -986,6 +1020,7 @@
      "outputs": 0.2493034548330079
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 8.294515733810686,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 1994716922438.8125,
@@ -1015,6 +1050,7 @@
      "outputs": 0.33209617979199524
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.226664305204912,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 3989433844877.6562,
@@ -1044,6 +1080,7 @@
      "outputs": 0.37343495362524376
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.537380495669676,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 5984150767316.469,
@@ -1073,6 +1110,7 @@
      "outputs": 0.3982198203138357
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.192738590902057,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 7978867689755.281,
@@ -1102,6 +1140,7 @@
      "outputs": 0.42652850437570583
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.848096686134432,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 11968301534632.938,
@@ -1131,6 +1170,7 @@
      "outputs": 0.4422477779846451
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.67577573375062,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 15957735379510.578,
@@ -1160,6 +1200,7 @@
      "outputs": 0.45917002146031044
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.50345478136681,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 23936603069265.86,
@@ -1189,6 +1230,7 @@
      "outputs": 0.47366968268453424
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.36559801945976,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 39894338448776.44,
@@ -1220,6 +1262,7 @@
      "outputs": 0.23445450430278947
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 7.341093523921008,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 2396521153048.5312,
@@ -1249,6 +1292,7 @@
      "outputs": 0.3062580938958606
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.619941080729691,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 4793042306097.0625,
@@ -1278,6 +1322,7 @@
      "outputs": 0.34107732429955456
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.046223599665919,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 7189563459145.594,
@@ -1307,6 +1352,7 @@
      "outputs": 0.36163490174285257
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.75936485913404,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 9586084612194.094,
@@ -1336,6 +1382,7 @@
      "outputs": 0.38482953349860505
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.472506118602149,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 14379126918291.156,
@@ -1365,6 +1412,7 @@
      "outputs": 0.39757956332208977
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.329076748336206,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 19172169224388.22,
@@ -1394,6 +1442,7 @@
      "outputs": 0.41120340241963615
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.1856473780702625,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 28758253836582.33,
@@ -1423,6 +1472,7 @@
      "outputs": 0.4227936824698446
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.070903881857508,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 47930423060970.55,
@@ -1454,6 +1504,7 @@
      "outputs": 0.22169037918004636
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.680964696494246,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 2784931909304.5625,
@@ -1483,6 +1534,7 @@
      "outputs": 0.28483571736720115
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.199859099639917,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 5569863818609.156,
@@ -1512,6 +1564,7 @@
      "outputs": 0.3147165560357986
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.706157234021819,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 8354795727913.719,
@@ -1541,6 +1594,7 @@
      "outputs": 0.3321381167406013
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.459306301212765,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 11139727637218.312,
@@ -1570,6 +1624,7 @@
      "outputs": 0.3516014930303133
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.212455368403714,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 16709591455827.469,
@@ -1599,6 +1654,7 @@
      "outputs": 0.36221442062093256
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.08902990199919,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 22279455274436.61,
@@ -1628,6 +1684,7 @@
      "outputs": 0.37348798169583586
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.9656044355946647,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 33419182911654.906,
@@ -1657,6 +1714,7 @@
      "outputs": 0.38302499723970995
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.8668640624710444,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 55698638186091.516,
@@ -1688,6 +1746,7 @@
      "outputs": 0.2747451377340762
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 10.668500758491321,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 1407236842105.25,
@@ -1717,6 +1776,7 @@
      "outputs": 0.3788256405144052
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 7.737382048183466,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 2814473684210.5312,
@@ -1746,6 +1806,7 @@
      "outputs": 0.43357547636253024
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.760342478080897,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 4221710526315.7812,
@@ -1775,6 +1836,7 @@
      "outputs": 0.46734718976755596
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.271822693029586,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 5628947368421.0625,
@@ -1804,6 +1866,7 @@
      "outputs": 0.5068243453518877
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.783302907978306,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 8443421052631.5625,
@@ -1833,6 +1896,7 @@
      "outputs": 0.529174209720095
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.539043015452655,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 11257894736842.094,
@@ -1862,6 +1926,7 @@
      "outputs": 0.5535861700577867
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.294783122927005,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 16886842105263.156,
@@ -1891,6 +1956,7 @@
      "outputs": 0.57479957646347
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.099375208906486,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 28144736842105.266,
@@ -1922,6 +1988,7 @@
      "outputs": 0.26309412538512206
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 9.432216026382976,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 1662171052631.5625,
@@ -1951,6 +2018,7 @@
      "outputs": 0.3570254145722742
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.950655400478174,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 3324342105263.1562,
@@ -1980,6 +2048,7 @@
      "outputs": 0.4052540836458654
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.123468525176607,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 4986513157894.719,
@@ -2009,6 +2078,7 @@
      "outputs": 0.43460856636358447
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.709875087525806,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 6648684210526.3125,
@@ -2038,6 +2108,7 @@
      "outputs": 0.4685477076097903
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.2962816498750165,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 9973026315789.469,
@@ -2067,6 +2138,7 @@
      "outputs": 0.48758580868672624
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.089484931049622,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 13297368421052.625,
@@ -2096,6 +2168,7 @@
      "outputs": 0.5082365529078712
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.8826882122242266,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 19946052631578.938,
@@ -2125,6 +2198,7 @@
      "outputs": 0.5260607738630858
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.71725083716391,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 33243421052631.58,
@@ -2156,6 +2230,7 @@
      "outputs": 0.25273379261418777
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 8.551074174575705,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 1908607456140.3438,
@@ -2185,6 +2260,7 @@
      "outputs": 0.33821118915350834
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.389928767509951,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 3817214912280.6875,
@@ -2214,6 +2290,7 @@
      "outputs": 0.38118484957409254
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.669546965154684,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 5725822368421.0625,
@@ -2243,6 +2320,7 @@
      "outputs": 0.407044730288234
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.309356063977065,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 7634429824561.406,
@@ -2272,6 +2350,7 @@
      "outputs": 0.4366686776408402
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.949165162799443,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 11451644736842.094,
@@ -2301,6 +2380,7 @@
      "outputs": 0.45315869498245986
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.769069712210628,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 15268859649122.812,
@@ -2330,6 +2410,7 @@
      "outputs": 0.47094302209094574
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.588974261621819,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 22903289473684.203,
@@ -2359,6 +2440,7 @@
      "outputs": 0.4862081098659729
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.444897901150767,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 38172149122807.016,
@@ -2390,6 +2472,7 @@
      "outputs": 0.28120941514881637
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 11.505170679769215,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 1274904580152.6562,
@@ -2419,6 +2502,7 @@
      "outputs": 0.39122579103764427
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 8.269808361723936,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 2549809160305.3438,
@@ -2448,6 +2532,7 @@
      "outputs": 0.44989611177571526
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 7.191354255708858,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 3824713740458.0312,
@@ -2477,6 +2562,7 @@
      "outputs": 0.48636507081995206
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.652127202701348,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 5099618320610.6875,
@@ -2506,6 +2592,7 @@
      "outputs": 0.5292679806339096
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.112900149693819,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 7649427480916.031,
@@ -2535,6 +2622,7 @@
      "outputs": 0.55368879308523
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.843286623190057,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 10199236641221.375,
@@ -2564,6 +2652,7 @@
      "outputs": 0.5804722060159371
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.573673096686293,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 15298854961832.062,
@@ -2593,6 +2682,7 @@
      "outputs": 0.6038396828689299
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.35798227548328,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 25498091603053.438,
@@ -2624,6 +2714,7 @@
      "outputs": 0.2705381851224648
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 10.1864088653485,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 1496755725190.8438,
@@ -2653,6 +2744,7 @@
      "outputs": 0.37087367646226116
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 7.430596298001729,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 2993511450381.6875,
@@ -2682,6 +2774,7 @@
      "outputs": 0.4231904033769082
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.511992108886141,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 4490267175572.531,
@@ -2711,6 +2804,7 @@
      "outputs": 0.455303767551787
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.052690014328364,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 5987022900763.344,
@@ -2740,6 +2834,7 @@
      "outputs": 0.4926911215304769
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.593387919770561,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 8980534351145.031,
@@ -2769,6 +2864,7 @@
      "outputs": 0.5137859356002666
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.3637368724916605,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 11974045801526.719,
@@ -2798,6 +2894,7 @@
      "outputs": 0.5367679195804195
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.134085825212764,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 17961068702290.08,
@@ -2827,6 +2924,7 @@
      "outputs": 0.5566887642359342
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.950364987389645,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 29935114503816.78,
@@ -2858,6 +2956,7 @@
      "outputs": 0.26096527269376946
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 9.236642001710234,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 1711211832061.0625,
@@ -2887,6 +2986,7 @@
      "outputs": 0.3531163868915642
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.826199202959158,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 3422423664122.1562,
@@ -2916,6 +3016,7 @@
      "outputs": 0.4002250629488843
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 6.022718270042163,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 5133635496183.219,
@@ -2945,6 +3046,7 @@
      "outputs": 0.42882980203448623
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.620977803583665,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 6844847328244.281,
@@ -2974,6 +3076,7 @@
      "outputs": 0.4618381274990526
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.219237337125166,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 10267270992366.406,
@@ -3003,6 +3106,7 @@
      "outputs": 0.48032412712089656
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.01836710389591,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 13689694656488.562,
@@ -3032,6 +3136,7 @@
      "outputs": 0.500351710330735
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.817496870666659,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 20534541984732.83,
@@ -3061,6 +3166,7 @@
      "outputs": 0.5176177728606284
     },
     "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.656800684083258,
      "capacity_tokens": 105421339592006.0,
      "capacity_as_days_of_served_tokens": 0.6801376747871355,
      "written_tokens_per_day": 34224236641221.375,
@@ -3074,6 +3180,7 @@
   ]
  },
  "storage_at_0p5": {
+  "retention_days_at_14p4tb_per_gpu": 5.619941080729691,
   "capacity_tokens": 105421339592006.0,
   "capacity_as_days_of_served_tokens": 0.6801376747871355,
   "written_tokens_per_day": 4793042306097.0625,
@@ -3082,5 +3189,777 @@
    "3d": 13.639673878116364,
    "7d": 31.825905715604854
   }
+ },
+ "gpus_behind_store": {
+  "physical_100pib": 6515.6244608948155,
+  "logical_100pib": 7818.7493530737775
+ },
+ "meet_store": {
+  "60/rank 14.5K | 4K batch 60K": {
+   "from": {
+    "output_share": 0.0293,
+    "hit_rate": 0.8748054624299525,
+    "hits": 131621917669017.0,
+    "misses": 18836582330983.0,
+    "outputs": 4541500000000.0,
+    "blended_price_per_m": 0.03835647163002904,
+    "revenue_per_day": 5945253.102654501,
+    "gpus_from_revenue": 6518.917875717654,
+    "prefill_gpus": 4541.99998335817,
+    "decode_gpus": 4541.999983358168,
+    "gpus_from_capacity": 9083.999966716337,
+    "utilization_needed": 1.3934828049534675,
+    "revenue_share": {
+     "hits": 0.06641697942695612,
+     "misses": 0.4752509776893932,
+     "outputs": 0.4583320428836507
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.5116885470097206,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 23378082330983.0,
+     "capacity_as_days_of_written_tokens": 4.509409202152179,
+     "needed_pib_at_ttl": {
+      "3d": 66.52756193800748,
+      "7d": 155.2309778553508
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0356,
+    "hit_rate": 0.8468928100003423,
+    "hits": 126595231024471.17,
+    "misses": 22886768975528.83,
+    "outputs": 5518000000000.0,
+    "blended_price_per_m": 0.045958716383243475,
+    "revenue_per_day": 7123601.039402738,
+    "gpus_from_revenue": 7810.966051976687,
+    "prefill_gpus": 5518.607488312314,
+    "decode_gpus": 5518.607488312314,
+    "gpus_from_capacity": 11037.214976624628,
+    "utilization_needed": 1.4130409610257477,
+    "revenue_share": {
+     "hits": 0.05331372306965351,
+     "misses": 0.4819213382866761,
+     "outputs": 0.46476493864367036
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.449241448032577,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 28404768975528.83,
+     "capacity_as_days_of_written_tokens": 3.7113957759286196,
+     "needed_pib_at_ttl": {
+      "3d": 80.832123037306,
+      "7d": 188.6082870870474
+     }
+    }
+   }
+  },
+  "60/rank 14.5K | 16K batch 81.5K": {
+   "from": {
+    "output_share": 0.0248,
+    "hit_rate": 0.85672608238582,
+    "hits": 129499287709111.02,
+    "misses": 21656712290888.984,
+    "outputs": 3844000000000.0,
+    "blended_price_per_m": 0.0383445464952302,
+    "revenue_per_day": 5943404.70676068,
+    "gpus_from_revenue": 6516.8911258340795,
+    "prefill_gpus": 3844.4231941052076,
+    "decode_gpus": 3844.423194105207,
+    "gpus_from_capacity": 7688.846388210415,
+    "utilization_needed": 1.1798334880462409,
+    "revenue_share": {
+     "hits": 0.06536621386146109,
+     "misses": 0.5465733874622638,
+     "outputs": 0.3880603986762752
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.134858381338322,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 25500712290888.984,
+     "capacity_as_days_of_written_tokens": 4.134054703627688,
+     "needed_pib_at_ttl": {
+      "3d": 72.56798022937288,
+      "7d": 169.32528720187005
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0301,
+    "hit_rate": 0.8251568250232738,
+    "hits": 124049538711461.36,
+    "misses": 26284961288538.64,
+    "outputs": 4665500000000.0,
+    "blended_price_per_m": 0.04589801812525922,
+    "revenue_per_day": 7114192.809415179,
+    "gpus_from_revenue": 7800.650010323661,
+    "prefill_gpus": 4666.013634780917,
+    "decode_gpus": 4666.013634780917,
+    "gpus_from_capacity": 9332.027269561833,
+    "utilization_needed": 1.1963140580863765,
+    "revenue_share": {
+     "hits": 0.052310729566096274,
+     "misses": 0.5542082283829624,
+     "outputs": 0.39348104205094153
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.077896062205592,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 30950461288538.64,
+     "capacity_as_days_of_written_tokens": 3.406131450165006,
+     "needed_pib_at_ttl": {
+      "3d": 88.07645987516626,
+      "7d": 205.51173970872128
+     }
+    }
+   }
+  },
+  "60/rank 14.5K | 64K batch 89.5K": {
+   "from": {
+    "output_share": 0.0235,
+    "hit_rate": 0.8511084026396907,
+    "hits": 128821640052536.98,
+    "misses": 22535859947463.016,
+    "outputs": 3642500000000.0,
+    "blended_price_per_m": 0.03840221878888427,
+    "revenue_per_day": 5952343.912277062,
+    "gpus_from_revenue": 6526.692886268709,
+    "prefill_gpus": 3642.9010105432403,
+    "decode_gpus": 3642.901010543241,
+    "gpus_from_capacity": 7285.802021086482,
+    "utilization_needed": 1.116308388956808,
+    "revenue_share": {
+     "hits": 0.06492651060710793,
+     "misses": 0.5679072046135002,
+     "outputs": 0.36716628477939195
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.033882353180147,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 26178359947463.016,
+     "capacity_as_days_of_written_tokens": 4.027041411439624,
+     "needed_pib_at_ttl": {
+      "3d": 74.49637819660592,
+      "7d": 173.82488245874717
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0285,
+    "hit_rate": 0.8184999998932667,
+    "hits": 123251776233927.83,
+    "misses": 27330723766072.17,
+    "outputs": 4417500000000.0,
+    "blended_price_per_m": 0.04593460576524264,
+    "revenue_per_day": 7119863.893612609,
+    "gpus_from_revenue": 7806.868304399791,
+    "prefill_gpus": 4417.98633193542,
+    "decode_gpus": 4417.986331935419,
+    "gpus_from_capacity": 8835.972663870838,
+    "utilization_needed": 1.1318203816620123,
+    "revenue_share": {
+     "hits": 0.05193292094157858,
+     "misses": 0.575798726797106,
+     "outputs": 0.3722683522613155
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 3.9785965899530353,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 31748223766072.17,
+     "capacity_as_days_of_written_tokens": 3.3205429182046022,
+     "needed_pib_at_ttl": {
+      "3d": 90.34667142992636,
+      "7d": 210.80890000316148
+     }
+    }
+   }
+  },
+  "64/rank 15.7K | 4K batch 60K": {
+   "from": {
+    "output_share": 0.0305,
+    "hit_rate": 0.8797725533221865,
+    "hits": 132205621019108.27,
+    "misses": 18066878980891.734,
+    "outputs": 4727500000000.0,
+    "blended_price_per_m": 0.038342894904458615,
+    "revenue_per_day": 5943148.710191085,
+    "gpus_from_revenue": 6516.610427841102,
+    "prefill_gpus": 4356.404075253601,
+    "decode_gpus": 4356.4040752535975,
+    "gpus_from_capacity": 8712.808150507199,
+    "utilization_needed": 1.3370153467028223,
+    "revenue_share": {
+     "hits": 0.06673514030992045,
+     "misses": 0.45599260245443646,
+     "outputs": 0.4772722572356431
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.625583017814092,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 22794378980891.734,
+     "capacity_as_days_of_written_tokens": 4.624883164414328,
+     "needed_pib_at_ttl": {
+      "3d": 64.86650350614651,
+      "7d": 151.35517484767522
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0371,
+    "hit_rate": 0.8527537236572377,
+    "hits": 127273066878980.89,
+    "misses": 21976433121019.11,
+    "outputs": 5750500000000.0,
+    "blended_price_per_m": 0.04599086560509554,
+    "revenue_per_day": 7128584.168789809,
+    "gpus_from_revenue": 7816.430009637948,
+    "prefill_gpus": 5299.101350554376,
+    "decode_gpus": 5299.101350554376,
+    "gpus_from_capacity": 10598.202701108752,
+    "utilization_needed": 1.3558878782309538,
+    "revenue_share": {
+     "hits": 0.05356171598683145,
+     "misses": 0.46242912899666216,
+     "outputs": 0.48400915501650643
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.561199772900375,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 27726933121019.11,
+     "capacity_as_days_of_written_tokens": 3.8021276688581422,
+     "needed_pib_at_ttl": {
+      "3d": 78.90318951075524,
+      "7d": 184.10744219176217
+     }
+    }
+   }
+  },
+  "64/rank 15.7K | 16K batch 81.5K": {
+   "from": {
+    "output_share": 0.026,
+    "hit_rate": 0.8614290011640225,
+    "hits": 130049936305732.48,
+    "misses": 20920063694267.516,
+    "outputs": 4030000000000.0,
+    "blended_price_per_m": 0.03836231847133758,
+    "revenue_per_day": 5946159.363057325,
+    "gpus_from_revenue": 6519.911582299698,
+    "prefill_gpus": 3713.655933003067,
+    "decode_gpus": 3713.655933003067,
+    "gpus_from_capacity": 7427.311866006134,
+    "utilization_needed": 1.1391737099886219,
+    "revenue_share": {
+     "hits": 0.06561374916070109,
+     "misses": 0.5277372102799921,
+     "outputs": 0.40664904055930684
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.228073545045751,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 24950063694267.516,
+     "capacity_as_days_of_written_tokens": 4.225293405412325,
+     "needed_pib_at_ttl": {
+      "3d": 71.00098649142794,
+      "7d": 165.6689684799985
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0316,
+    "hit_rate": 0.8306090287479249,
+    "hits": 124676076433121.02,
+    "misses": 25425923566878.984,
+    "outputs": 4898000000000.0,
+    "blended_price_per_m": 0.04597881783439491,
+    "revenue_per_day": 7126716.764331211,
+    "gpus_from_revenue": 7814.382417029837,
+    "prefill_gpus": 4513.520287803728,
+    "decode_gpus": 4513.520287803727,
+    "gpus_from_capacity": 9027.040575607454,
+    "utilization_needed": 1.1551828530857255,
+    "revenue_share": {
+     "hits": 0.0524825444405693,
+     "misses": 0.5351536564663452,
+     "outputs": 0.4123637990930855
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.169478635826913,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 30323923566878.984,
+     "capacity_as_days_of_written_tokens": 3.4765072323012793,
+     "needed_pib_at_ttl": {
+      "3d": 86.29350665881243,
+      "7d": 201.35151553722898
+     }
+    }
+   }
+  },
+  "64/rank 15.7K | 64K batch 89.5K": {
+   "from": {
+    "output_share": 0.0247,
+    "hit_rate": 0.8556282861846853,
+    "hits": 129346611464968.16,
+    "misses": 21824888535031.844,
+    "outputs": 3828500000000.0,
+    "blended_price_per_m": 0.03844434267515923,
+    "revenue_per_day": 5958873.11464968,
+    "gpus_from_revenue": 6533.852099396579,
+    "prefill_gpus": 3527.9731363529127,
+    "decode_gpus": 3527.9731363529136,
+    "gpus_from_capacity": 7055.946272705826,
+    "utilization_needed": 1.079906028689793,
+    "revenue_share": {
+     "hits": 0.0651196672473059,
+     "misses": 0.5493879828060809,
+     "outputs": 0.38549234994661324
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.120947162301839,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 25653388535031.844,
+     "capacity_as_days_of_written_tokens": 4.109450860577127,
+     "needed_pib_at_ttl": {
+      "3d": 73.00245462914926,
+      "7d": 170.33906080134824
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0299,
+    "hit_rate": 0.8242974491434004,
+    "hits": 123945898089171.97,
+    "misses": 26419601910828.03,
+    "outputs": 4634500000000.0,
+    "blended_price_per_m": 0.04590630955414013,
+    "revenue_per_day": 7115477.98089172,
+    "gpus_from_revenue": 7802.059189574255,
+    "prefill_gpus": 4270.7043229535275,
+    "decode_gpus": 4270.704322953527,
+    "gpus_from_capacity": 8541.408645907053,
+    "utilization_needed": 1.0947633744333518,
+    "revenue_share": {
+     "hits": 0.0522575848405502,
+     "misses": 0.5569464619617253,
+     "outputs": 0.3907959531977245
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.0650206139617024,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 31054101910828.03,
+     "capacity_as_days_of_written_tokens": 3.3947637543897993,
+     "needed_pib_at_ttl": {
+      "3d": 88.37139244581228,
+      "7d": 206.1999157068953
+     }
+    }
+   }
+  },
+  "128/rank 22.8K | 4K batch 60K": {
+   "from": {
+    "output_share": 0.036,
+    "hit_rate": 0.9017252675256606,
+    "hits": 134735789473684.2,
+    "misses": 14684210526315.797,
+    "outputs": 5580000000000.0,
+    "blended_price_per_m": 0.03841831578947369,
+    "revenue_per_day": 5954838.947368422,
+    "gpus_from_revenue": 6529.428670360111,
+    "prefill_gpus": 3540.75292397661,
+    "decode_gpus": 3540.752923976608,
+    "gpus_from_capacity": 7081.505847953218,
+    "utilization_needed": 1.0845521416137407,
+    "revenue_share": {
+     "hits": 0.06787880780548751,
+     "misses": 0.36988936198194955,
+     "outputs": 0.5622318302125631
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.213363158751788,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 20264210526315.797,
+     "capacity_as_days_of_written_tokens": 5.202341312784045,
+     "needed_pib_at_ttl": {
+      "3d": 57.666343279475115,
+      "7d": 134.55480098544194
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0437,
+    "hit_rate": 0.8797448499424867,
+    "hits": 130401500000000.0,
+    "misses": 17825000000000.0,
+    "outputs": 6773500000000.0,
+    "blended_price_per_m": 0.0459939,
+    "revenue_per_day": 7129054.5,
+    "gpus_from_revenue": 7816.945723684211,
+    "prefill_gpus": 4298.080632716049,
+    "decode_gpus": 4298.080632716049,
+    "gpus_from_capacity": 8596.161265432098,
+    "utilization_needed": 1.0996828645473355,
+    "revenue_share": {
+     "hits": 0.0548746681625172,
+     "misses": 0.37504973485614396,
+     "outputs": 0.5700755969813388
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.141631611366302,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 24598500000000.0,
+     "capacity_as_days_of_written_tokens": 4.285681630668781,
+     "needed_pib_at_ttl": {
+      "3d": 70.00053336980727,
+      "7d": 163.33457786288363
+     }
+    }
+   }
+  },
+  "128/rank 22.8K | 16K batch 81.5K": {
+   "from": {
+    "output_share": 0.0315,
+    "hit_rate": 0.8837390973561938,
+    "hits": 132664703947368.42,
+    "misses": 17452796052631.578,
+    "outputs": 4882500000000.0,
+    "blended_price_per_m": 0.03835750657894737,
+    "revenue_per_day": 5945413.519736842,
+    "gpus_from_revenue": 6519.0937716412745,
+    "prefill_gpus": 3098.158808479532,
+    "decode_gpus": 3098.158808479532,
+    "gpus_from_capacity": 6196.317616959064,
+    "utilization_needed": 0.9504875729681448,
+    "revenue_share": {
+     "hits": 0.06694136758038681,
+     "misses": 0.4403258745929268,
+     "outputs": 0.4927327578266863
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.722456868792469,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 22335296052631.58,
+     "capacity_as_days_of_written_tokens": 4.719943686602045,
+     "needed_pib_at_ttl": {
+      "3d": 63.56008035680067,
+      "7d": 148.30685416586826
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0383,
+    "hit_rate": 0.8576419863217365,
+    "hits": 127843116228070.17,
+    "misses": 21220383771929.83,
+    "outputs": 5936500000000.0,
+    "blended_price_per_m": 0.04599023815789474,
+    "revenue_per_day": 7128486.9144736845,
+    "gpus_from_revenue": 7816.323371133426,
+    "prefill_gpus": 3766.967694119559,
+    "decode_gpus": 3766.967694119558,
+    "gpus_from_capacity": 7533.935388239117,
+    "utilization_needed": 0.9638720189165663,
+    "revenue_share": {
+     "hits": 0.053802350103988025,
+     "misses": 0.4465263952896641,
+     "outputs": 0.4996712546063479
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.656880249216819,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 27156883771929.83,
+     "capacity_as_days_of_written_tokens": 3.8819380190069035,
+     "needed_pib_at_ttl": {
+      "3d": 77.28098659255448,
+      "7d": 180.32230204929382
+     }
+    }
+   }
+  },
+  "128/rank 22.8K | 64K batch 89.5K": {
+   "from": {
+    "output_share": 0.0301,
+    "hit_rate": 0.8781774391644644,
+    "hits": 132020366228070.19,
+    "misses": 18314133771929.812,
+    "outputs": 4665500000000.0,
+    "blended_price_per_m": 0.03833858815789472,
+    "revenue_per_day": 5942481.164473682,
+    "gpus_from_revenue": 6515.878469817633,
+    "prefill_gpus": 2960.4628614359954,
+    "decode_gpus": 2960.462861435997,
+    "gpus_from_capacity": 5920.925722871993,
+    "utilization_needed": 0.9086918594781139,
+    "revenue_share": {
+     "hits": 0.06664911300889066,
+     "misses": 0.46228502703765506,
+     "outputs": 0.4710658599534544
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.5877776141096005,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 22979633771929.812,
+     "capacity_as_days_of_written_tokens": 4.587598768470399,
+     "needed_pib_at_ttl": {
+      "3d": 65.39368744752416,
+      "7d": 152.5852707108897
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0366,
+    "hit_rate": 0.850870819356883,
+    "hits": 127057986842105.27,
+    "misses": 22269013157894.734,
+    "outputs": 5673000000000.0,
+    "blended_price_per_m": 0.045969844736842104,
+    "revenue_per_day": 7125325.934210526,
+    "gpus_from_revenue": 7812.857384002769,
+    "prefill_gpus": 3599.7654727095514,
+    "decode_gpus": 3599.7654727095514,
+    "gpus_from_capacity": 7199.530945419103,
+    "utilization_needed": 0.9214978069560716,
+    "revenue_share": {
+     "hits": 0.053495652556215204,
+     "misses": 0.4687998843177572,
+     "outputs": 0.47770446312602755
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.52402180403241,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 27942013157894.734,
+     "capacity_as_days_of_written_tokens": 3.772861282266638,
+     "needed_pib_at_ttl": {
+      "3d": 79.51524785978025,
+      "7d": 185.53557833948722
+     }
+    }
+   }
+  },
+  "256/rank 26.2K | 4K batch 60K": {
+   "from": {
+    "output_share": 0.0379,
+    "hit_rate": 0.9097870355162967,
+    "hits": 135672446564885.5,
+    "misses": 13453053435114.5,
+    "outputs": 5874500000000.0,
+    "blended_price_per_m": 0.03838500229007633,
+    "revenue_per_day": 5949675.354961831,
+    "gpus_from_revenue": 6523.766836580955,
+    "prefill_gpus": 3243.8882704269145,
+    "decode_gpus": 3243.8882704269154,
+    "gpus_from_capacity": 6487.77654085383,
+    "utilization_needed": 0.9944832032430535,
+    "revenue_share": {
+     "hits": 0.06841000817888619,
+     "misses": 0.33917111352710444,
+     "outputs": 0.5924188782940094
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.461274845531689,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 19327553435114.5,
+     "capacity_as_days_of_written_tokens": 5.4544585762456315,
+     "needed_pib_at_ttl": {
+      "3d": 55.00087603680979,
+      "7d": 128.33537741922285
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.046,
+    "hit_rate": 0.8895770320226607,
+    "hits": 131541755725190.84,
+    "misses": 16328244274809.156,
+    "outputs": 7130000000000.0,
+    "blended_price_per_m": 0.04594749618320611,
+    "revenue_per_day": 7121861.908396946,
+    "gpus_from_revenue": 7809.059110084371,
+    "prefill_gpus": 3937.173098671189,
+    "decode_gpus": 3937.1730986711905,
+    "gpus_from_capacity": 7874.34619734238,
+    "utilization_needed": 1.008360429385622,
+    "revenue_share": {
+     "hits": 0.05541040703278651,
+     "misses": 0.34390397802204364,
+     "outputs": 0.6006856149451698
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 5.386115860857588,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 23458244274809.156,
+     "capacity_as_days_of_written_tokens": 4.49399956608064,
+     "needed_pib_at_ttl": {
+      "3d": 66.75568067792217,
+      "7d": 155.76325491515175
+     }
+    }
+   }
+  },
+  "256/rank 26.2K | 16K batch 81.5K": {
+   "from": {
+    "output_share": 0.0336,
+    "hit_rate": 0.8918469743693443,
+    "hits": 133591541984732.83,
+    "misses": 16200458015267.172,
+    "outputs": 5208000000000.0,
+    "blended_price_per_m": 0.038423505343511445,
+    "revenue_per_day": 5955643.3282442745,
+    "gpus_from_revenue": 6530.310666934512,
+    "prefill_gpus": 2875.848176420695,
+    "decode_gpus": 2875.8481764206954,
+    "gpus_from_capacity": 5751.696352841391,
+    "utilization_needed": 0.8807691771793421,
+    "revenue_share": {
+     "hits": 0.06729325513056655,
+     "misses": 0.408027910396451,
+     "outputs": 0.5246788344729825
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.935383904347894,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 21408458015267.17,
+     "capacity_as_days_of_written_tokens": 4.924284575602133,
+     "needed_pib_at_ttl": {
+      "3d": 60.92255542792559,
+      "7d": 142.15262933182635
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0407,
+    "hit_rate": 0.8680235986322724,
+    "hits": 129067730916030.53,
+    "misses": 19623769083969.47,
+    "outputs": 6308500000000.0,
+    "blended_price_per_m": 0.045908829389312976,
+    "revenue_per_day": 7115868.5553435115,
+    "gpus_from_revenue": 7802.487451034552,
+    "prefill_gpus": 3483.5422851286407,
+    "decode_gpus": 3483.5422851286403,
+    "gpus_from_capacity": 6967.084570257281,
+    "utilization_needed": 0.8929312112297595,
+    "revenue_share": {
+     "hits": 0.054414045135407894,
+     "misses": 0.4136621326970707,
+     "outputs": 0.5319238221675214
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.868162256877542,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 25932269083969.47,
+     "capacity_as_days_of_written_tokens": 4.065257045214537,
+     "needed_pib_at_ttl": {
+      "3d": 73.79607160465989,
+      "7d": 172.1908337442064
+     }
+    }
+   }
+  },
+  "256/rank 26.2K | 64K batch 89.5K": {
+   "from": {
+    "output_share": 0.0322,
+    "hit_rate": 0.886344096707887,
+    "hits": 132959591603053.42,
+    "misses": 17049408396946.578,
+    "outputs": 4991000000000.0,
+    "blended_price_per_m": 0.03839283893129772,
+    "revenue_per_day": 5950890.034351147,
+    "gpus_from_revenue": 6525.0987218762575,
+    "prefill_gpus": 2756.021169069835,
+    "decode_gpus": 2756.0211690698334,
+    "gpus_from_capacity": 5512.042338139669,
+    "utilization_needed": 0.844744665649244,
+    "revenue_share": {
+     "hits": 0.06702842306052659,
+     "misses": 0.42975273358766297,
+     "outputs": 0.5032188433518106
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.79004876426266,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 22040408396946.58,
+     "capacity_as_days_of_written_tokens": 4.783093747328693,
+     "needed_pib_at_ttl": {
+      "3d": 62.7209115789434,
+      "7d": 146.3487936842013
+     }
+    }
+   },
+   "to": {
+    "output_share": 0.0391,
+    "hit_rate": 0.860998237180633,
+    "hits": 128236646946564.88,
+    "misses": 20702853053435.125,
+    "outputs": 6060500000000.0,
+    "blended_price_per_m": 0.04597701870229008,
+    "revenue_per_day": 7126437.898854963,
+    "gpus_from_revenue": 7814.076643481319,
+    "prefill_gpus": 3346.5971338705135,
+    "decode_gpus": 3346.5971338705117,
+    "gpus_from_capacity": 6693.194267741025,
+    "utilization_needed": 0.8565560043904408,
+    "revenue_share": {
+     "hits": 0.05398348323522299,
+     "misses": 0.4357615967598949,
+     "outputs": 0.5102549200048823
+    },
+    "storage": {
+     "retention_days_at_14p4tb_per_gpu": 4.723997171311866,
+     "capacity_tokens": 105421339592006.0,
+     "capacity_as_days_of_served_tokens": 0.6801376747871355,
+     "written_tokens_per_day": 26763353053435.125,
+     "capacity_as_days_of_written_tokens": 3.9390183801530423,
+     "needed_pib_at_ttl": {
+      "3d": 76.16110691728841,
+      "7d": 177.70924947367294
+     }
+    }
+   }
+  }
+ },
+ "february_2025": {
+  "hit_rate": 0.5625,
+  "token_share": {
+   "hits": 0.44072164948453607,
+   "misses": 0.3427835051546392,
+   "outputs": 0.21649484536082475
+  },
+  "revenue_share": {
+   "hits": 0.08518057285180575,
+   "misses": 0.2602739726027397,
+   "outputs": 0.6545454545454545
+  },
+  "gpus": 1814.0,
+  "revenue_per_day": 562100.0,
+  "revenue_per_gpu_hour": 12.911153987504592,
+  "tokens_per_gpu_day": 427783902.97684675,
+  "price_ratio_hit_miss_out": [
+   1.0,
+   3.9285714285714284,
+   15.64285714285714
+  ]
  }
 }
