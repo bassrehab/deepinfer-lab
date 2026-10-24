@@ -8,19 +8,29 @@ EP=${EP:-$(nvidia-smi -L | wc -l)}
 # DeepEP reads Engram rows over RDMA (NCCL Gin), which needs an IB device even on one
 # node. Without one: MoE dispatch over NVLink only, and the local Engram gather from
 # patch_single_node.py, with every rank holding the whole table in host RAM.
+# subhadipmitra@: eager mode costs speed, not accuracy, and both passes run with the same
+# settings, so the comparison stays like for like.
 if ! ls /dev/infiniband/uverbs* >/dev/null 2>&1; then
   python3 /workspace/patch_single_node.py /workspace/DeepInfer
   export EP_DISABLE_GIN=1 REAL_LOCAL_ENGRAM=1 REAL_ENGRAM_PARALLEL=1 DEEPINFER_ENFORCE_EAGER=1
   echo "no RDMA device: NVLink-only EP, local Engram gather, eager"
 fi
 mkdir -p var/real
+# subhadipmitra@: keep 0 first. It is the exact baseline, and without it the other passes
+# have nothing to be compared against. 512 is the control: on the 256-token prompts it
+# changes nothing mathematically, so it measures code-path rounding on its own.
 for K in ${KEEPS:-0 140 512}; do
   echo "=== keep_tokens=$K  $(date -u +%H:%M:%S) ==="
   # The loader reads single-threaded; pull the shards into page cache with 16 readers.
+  # subhadipmitra@: this took a load from timing out at 30 minutes to about 17. Page cache
+  # counts against the pod's memory limit, so with 370 GiB of Engram tables in RAM only
+  # part of the 476 GiB checkpoint stays cached; it is still the biggest single win.
   (cd "$MODEL" && ls *.safetensors | xargs -P 16 -I{} cat {} > /dev/null) &
   python examples/yoco/yoco_real.py logp --model_name "$MODEL" --keep-tokens "$K" --compact 1 \
       --output_len 256 --top_logprobs 20 --max_num_seqs 16 --ep "$EP" --cp 1 --out "var/real/keep${K}.json" \
       2>&1 | tee "/workspace/run_keep${K}.log" | grep -E '^\[logp\]|Error|error|Traceback' || true
+  # subhadipmitra@: without this guard a failed pass rolls straight into the next one, and
+  # the failed pass's workers can still be holding GPU memory. Stop, clean up by PID, rerun.
   ls var/real/keep${K}.rank0.json >/dev/null 2>&1 || { echo "keep_tokens=$K produced no dump, stopping"; exit 1; }
 done
 ls -la var/real/

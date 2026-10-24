@@ -16,12 +16,16 @@ import matplotlib.pyplot as plt
 SRC = sys.argv[1] if len(sys.argv) > 1 else "results/economics.json"
 OUT = sys.argv[2] if len(sys.argv) > 2 else "results/feasibility_band.png"
 
+# subhadipmitra@: colours were checked for colour-blind separation on the light surface only.
+# If you render on dark, re-check them rather than trusting these.
 BLUE, ORANGE, AQUA = "#2a78d6", "#eb6834", "#1baf7a"   # validated adjacent pairs, light surface
 INK, MUTED, GRID = "#1a1a1a", "#6b6761", "#e6e2d9"
 STORE_FILL, STORE_EDGE = "#f0e7d7", "#92400e"
 
 d = json.load(open(SRC))
 base = d["base"]
+# subhadipmitra@: this key is the label string economics.py writes into the grid. Rename a
+# label there and this lookup breaks with a KeyError, not a wrong plot.
 hi = d["grid"]["128/rank 22.8K | 64K batch 89.5K"]
 x = [100 * p["output_share"] for p in base]
 

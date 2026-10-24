@@ -20,6 +20,11 @@ from pathlib import Path
 
 root = Path(sys.argv[1])
 
+# subhadipmitra@: host RAM is the real limit here. With engram_parallel_size=1 every rank
+# holds the full FP8 table, 183 GiB, so two ranks need about 370 GiB before anything else.
+# The 2x B300 pod had a 468 GiB cgroup limit; check yours (cat /sys/fs/cgroup/memory.max)
+# before trying four or eight ranks this way.
+
 LOCAL = '''"""Single-node stand-in for DeepEP's EngramBuffer (see patch_single_node.py)."""
 
 import torch
@@ -94,6 +99,13 @@ def sub(path: str, old: str, new: str) -> None:
     p.write_text(s.replace(old, new))
 
 
+# subhadipmitra@: three things in LOCAL that are easy to break:
+#   * the sync-debug pause. The engine runs with torch's sync debug mode set to "error"
+#     and this gather has to copy indices to the host, so without it the profile run dies.
+#   * the scale-factor layout. DeepGEMM asserts a column-major, 16-byte-aligned (TMA)
+#     stride; a contiguous [T, K] tensor of the right values still fails.
+#   * write() keeps references to the tables. release_storage() drops the module's own
+#     reference afterwards, and without ours the tables would be freed.
 (root / "deepinfer/model_executor/parallel_utils/local_engram.py").write_text(LOCAL)
 
 sub("deepinfer/model_executor/parallel_utils/userbuffer.py",
@@ -114,12 +126,16 @@ sub("deepinfer/model_executor/models/v4_modules/engram.py",
     "        else:\n"
     "            weights = [cuda_view_for_write(embedding.weight) for embedding in embeddings]\n")
 
+# subhadipmitra@: with a group of one there is nothing to gather, and skipping the
+# collective avoids depending on how the gloo group handles CUDA tensors.
 sub("deepinfer/model_executor/models/v4_modules/engram.py",
     "        local_sf = _pack_ue8m0_to_int(self.sf)\n",
     "        local_sf = _pack_ue8m0_to_int(self.sf)\n"
     "        if self.engram_group.size() == 1:\n"
     "            return local_sf.contiguous()\n")
 
+# subhadipmitra@: the watchdog calls os.abort() and leaves the spawned workers alive, still
+# holding GPU memory. If a load times out, find them by PID and kill them before retrying.
 sub("deepinfer/model_executor/model_loader.py",
     "def checkpoint_load_watchdog(timeout: int = 30 * 60)",
     "def checkpoint_load_watchdog(timeout: int = 3 * 60 * 60)")

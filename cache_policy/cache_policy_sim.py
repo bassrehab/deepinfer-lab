@@ -35,6 +35,9 @@ import numpy as np
 
 BLOCK = 128
 WINDOW = 128
+# subhadipmitra@: the 6 comes from speculative decoding (5 draft tokens + 1). Serve without
+# MTP and the backtrack, and therefore the L - 134 cap, gets smaller. These constants are
+# coupled; change one and re-derive the others rather than editing them independently.
 BACKTRACK = 6                 # DEEPINFER_USE_NEXTN_DECODE (5) + 1
 CAP = WINDOW + BACKTRACK      # 134
 KEEP = 140                    # DEEPINFER_YOCO_PREFILL_KEEP_TOKENS default
@@ -90,6 +93,9 @@ class Store:
         L1 = (min(cap, lcp) // BLOCK) * BLOCK
         if L1 <= 0:
             return {"L": L, "lcp": lcp, "L1": 0, "hit": 0, "swa_backoff": False}
+        # subhadipmitra@: swa_available is my knob, not DeepSeek's. It stands in for SWA
+        # snapshots that were evicted or never written; the Q&A gives no rate. 1.0 is the
+        # literal policy, 0.9 shows how fast the block back-off starts to cost.
         swa_ok = any(L1 - WINDOW <= pos <= L1 for pos in e.swa_positions) and self.rng.random() < self.swa_available
         hit = L1 if swa_ok else max(0, L1 - BLOCK)
         return {"L": L, "lcp": lcp, "L1": L1, "hit": hit, "swa_backoff": not swa_ok}
@@ -97,6 +103,9 @@ class Store:
     def put(self, prompt: np.ndarray, output: np.ndarray) -> None:
         L = len(prompt)
         swa = set()
+        # subhadipmitra@: "reserve one token, round down" is why the prefill snapshot uses
+        # L - 1. A prompt that is an exact multiple of 128 stores its SWA state one block
+        # early. Easy to "fix" by accident; it is the documented behaviour.
         p = ((L - 1) // BLOCK) * BLOCK
         if p >= BLOCK:
             swa.add(p)
@@ -106,6 +115,9 @@ class Store:
         self.entries.append(Stored(np.concatenate([prompt, output]), swa))
 
 
+# subhadipmitra@: layer-tokens treat every token-layer as equal work. Attention over long
+# contexts is not linear, and encoder and decoder layers differ in cost, so read the
+# results as ratios between policies on the same trace, not as FLOPs.
 def cost(L: int, lcp: int, hit: int) -> dict:
     return {
         "no_cache": 40 * L,
@@ -125,6 +137,9 @@ def cat(*parts: np.ndarray) -> np.ndarray:
 
 def run_session(kind: str, store: Store, rng: random.Random, system: np.ndarray) -> list[dict]:
     rows = []
+    # subhadipmitra@: these workload shapes are my guesses, not DeepSeek data. The agent
+    # numbers drive the headline result; if you have real traces, replace this function
+    # and keep the Store and cost() as they are.
     if kind == "agent":
         turns, user_rng, out_rng = 40, (200, 4000), (50, 1500)
     elif kind == "chat":
@@ -192,6 +207,8 @@ def main() -> None:
     results = {}
     for swa_p in args.swa_available:
         for kind in ("agent", "chat", "doc"):
+            # subhadipmitra@: re-seeded per workload so every policy sees the same traces.
+            # Do not hoist this out of the loop; results stop being comparable across kinds.
             rng = random.Random(args.seed)
             store = Store(swa_p, rng)
             system = fresh(rng, 2000 if kind == "agent" else 500 if kind == "chat" else 300)

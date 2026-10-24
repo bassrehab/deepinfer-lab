@@ -32,6 +32,9 @@ sub("def _build_prompts(cfg: LogpConfig, llm: object, lens: list[int]) -> tuple[
     "    assert all(len(g) == cfg.output_len for g in r['golden']), 'pass --output_len equal to the golden length'\n"
     "    return r['prompts'], r['golden'], None\n\n\n"
     "def _build_prompts_upstream(cfg: LogpConfig, llm: object, lens: list[int]) -> tuple[list[list[int]], list[list[int]], list[dict] | None]:\n")
+# subhadipmitra@: the dumped logprobs are post-temperature. Upstream's 0.5 sharpens them and
+# would shrink every difference we measure, so 1.0 is the only setting that reports the
+# model's own distribution.
 sub("            temperature=0.5,\n", "            temperature=1.0,\n")
 sub("        gpu_memory_utilization=cfg.gpu_memory_utilization,\n",
     "        gpu_memory_utilization=cfg.gpu_memory_utilization,\n"
@@ -43,5 +46,8 @@ sub("@dataclass\nclass LogpConfig:\n",
     "    import json as _json, os as _os\n"
     "    return _json.loads(Path(_os.environ['REAL_PROMPTS']).read_text())\n\n\n"
     "@dataclass\nclass LogpConfig:\n")
+# subhadipmitra@: written next to the original, never over it. The harness asserts that it
+# runs from the repo root and imports deepinfer from there, so the copy has to live in
+# examples/yoco/ too.
 dst = src.with_name("yoco_real.py"); dst.write_text(s)
 print("wrote", dst)

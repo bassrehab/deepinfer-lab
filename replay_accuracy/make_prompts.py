@@ -26,6 +26,8 @@ from tokenizers import Tokenizer
 
 LENS = [256, 1024, 4096, 16384]
 GOLDEN = 256
+# subhadipmitra@: 0 is BOS in the V4.1 vocabulary. Check token_to_id on any other tokenizer
+# before reusing this; a wrong BOS still runs and quietly shifts every logprob.
 BOS = 0
 
 
@@ -52,6 +54,9 @@ def strip_post(md: str) -> str:
 def neutralise(text: str, spellings: list[str]) -> str:
     # Break every control-token spelling (e.g. "</think>" -> "< /think>") so the
     # tokenizer can only produce ordinary text tokens from it.
+    # subhadipmitra@: all 427 added tokens, not just the full-width ones. ASCII spellings such
+    # as "</think>" and "<|EOT|>" occur in real code, and neutralising only the full-width
+    # set lets them through. Longest first so a short spelling never splits a longer one.
     for sp in sorted(spellings, key=len, reverse=True):
         if sp in text:
             text = text.replace(sp, sp[0] + " " + sp[1:])
@@ -75,6 +80,9 @@ def main() -> None:
         "code_py": read_tree(Path(a.deepinfer), ".py", ["deepinfer", "examples", "eval"]),
         "code_rs": read_tree(Path(a.recipe), ".rs", ["deepseek-recipe", "deepseek-recipe-core", "deepseek-recipe-encoding",
                                                      "deepseek-recipe-image", "deepseek-recipe-python", "server-rs"]),
+        # subhadipmitra@: older public posts may be in the training data, which lowers their
+        # perplexity. That does not bias a paired exact-vs-replay comparison, but do not
+        # compare prose perplexity with code perplexity across runs and read much into it.
         "prose": "\n\n".join(strip_post(Path(p).read_text()) for p in a.prose),
     }
     need = sum(LENS) + GOLDEN * len(LENS)
@@ -90,6 +98,9 @@ def main() -> None:
             g = ids[off + L - 1: off + L - 1 + GOLDEN]
             prompts.append(p); golden.append(g)
             meta.append({"source": name, "len": L, "offset": off})
+            # subhadipmitra@: non-overlapping on purpose. If two requests shared a prefix, the
+            # engine's in-GPU prefix cache could hit and the exact and replay runs would no
+            # longer be computing the same thing.
             off += L - 1 + GOLDEN
         print(f"{name:8s} {len(ids):9,d} tokens available, {off:,d} used")
     Path(a.out).write_text(json.dumps({"lens": LENS, "golden_len": GOLDEN, "meta": meta, "prompts": prompts, "golden": golden}))

@@ -8,6 +8,9 @@ set -uo pipefail
 ls /dev/infiniband 2>&1 | head -3
 cd /workspace/DeepInfer/vendor/DeepEP
 N=$(nvidia-smi -L | wc -l)
+# subhadipmitra@: on a node without InfiniBand, expect the Engram test to fail with "NCCL GIN
+# is unavailable". That is the expected result, not a broken build. The EP test below is
+# the one that has to pass.
 timeout 900 python tests/engram/test_engram.py --num-processes "$N" --use-fp8 --allow-hybrid-mode 2>&1 | tail -25
 echo "PREFLIGHT ENGRAM EXIT ${PIPESTATUS[0]}"
 # If that failed for want of Gin, check that MoE dispatch at least runs over NVLink alone,

@@ -1,9 +1,12 @@
 # deepinfer-lab
 
+**Read the post:** [DeepInfer: The Engine Is Open. The Cache Is the Business.](https://subhadipmitra.com/blog/2026/deepinfer-cache-is-the-business/)
+
 Working notes and runnable models around DeepSeek's October 2026 release of
 [DeepInfer](https://github.com/deepseek-ai/DeepInfer) and
-[deepseek-recipe](https://github.com/deepseek-ai/deepseek-recipe).
-Companion code for [DeepInfer: the engine is open, the cache is the business](https://subhadipmitra.com/blog/2026/deepinfer-cache-is-the-business/) on subhadipmitra.com.
+[deepseek-recipe](https://github.com/deepseek-ai/deepseek-recipe). This is the companion
+code for the post above: its economics model, cache simulator, recipe probe and replay
+measurement all live here.
 
 Only `replay_accuracy/` needs a GPU (two B300s were enough). Every input number is one DeepSeek published, with the
 source quoted next to it in the code.

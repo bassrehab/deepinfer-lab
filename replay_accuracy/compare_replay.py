@@ -30,6 +30,9 @@ def load(d: Path, k: int) -> list[dict]:
     return [json.loads(f.read_text()) for f in files]
 
 
+# subhadipmitra@: every rank processes the same requests, so with DEEPINFER_BATCH_INVARIANT=1
+# the ranks must agree bit for bit. If this ever prints "NOT identical", stop: something
+# nondeterministic is in the path and the replay numbers below mean nothing.
 def rank_invariance(dumps: list[dict]) -> str:
     base = [[s["logprob"] for s in r["steps"]] for r in dumps[0]["requests"]]
     same = all([[s["logprob"] for s in r["steps"]] for r in d["requests"]] == base for d in dumps[1:])
@@ -46,6 +49,9 @@ def step_stats(sr: dict, sc: dict) -> dict:
             continue
         kl += math.exp(lp) * (lp - cand.get(t, floor))
     return {"dl": dl, "abs": abs(dl), "lr": sr["logprob"], "lc": sc["logprob"],
+            # subhadipmitra@: exact float equality is intended for "bit". And keep in mind that
+            # every metric here mixes the truncation with rounding from a different code
+            # path; without a keep_tokens >= L control run they are upper bounds.
             "top1": sr["top_ids"][0] == sc["top_ids"][0], "kl": max(kl, 0.0), "bit": sr["logprob"] == sc["logprob"]}
 
 

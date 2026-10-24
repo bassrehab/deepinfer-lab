@@ -35,14 +35,28 @@ PIB = 2**50
 class Params:
     tokens_per_day: float = 155e12
     revenue_per_gpu_hour: float = 38.0
+    # subhadipmitra@: off-peak prices on purpose. The $38/GPU-hour is quoted "at valley
+    # pricing", so pairing it with peak prices (2x) would double-count revenue.
     price_hit: float = 0.003      # $ per 1M tokens, off-peak
     price_miss: float = 0.15
     price_out: float = 0.60
+    # subhadipmitra@: both throughputs are read off DeepSeek's charts at 131K context. Shorter
+    # contexts run faster, so for chat-sized prompts these understate capacity. 75K is a
+    # midpoint between the 4K-batch (60K) and 64K-batch (89.5K) prefill points; pass
+    # --prefill-tps to pin one end.
     prefill_tps_gpu: float = 75_000.0
+    # subhadipmitra@: 14,466 is the 60-seqs/rank point the Q&A calls production. This one
+    # number decides which "reading" you land in; the 128/rank point (22,800) is what makes
+    # the 7,000-GPU reading possible. Check the sensitivity grid before quoting a GPU count.
     decode_tps_gpu: float = 14_466.0
     online_efficiency: float = 0.80
+    # subhadipmitra@: not disclosed. Leaving it at 1.0 makes gpus_from_capacity a floor, and
+    # utilization_needed is the number to look at instead.
     utilization: float = 1.0      # average over the day / benchmark peak; not disclosed
     pd_ratio: float = 1.0         # prefill GPUs per decode GPU
+    # subhadipmitra@: assumes the persisted block KV is exactly the 890 B/token global KV.
+    # The per-sequence SWA snapshots (~1.4 MB each) are left out; they are small next to the
+    # block cache at these hit rates, but they are not zero.
     bytes_per_token: float = 890.0
     ec_overhead: float = 1.2      # 10+2 erasure coding
     store_pib: float = 100.0
@@ -82,6 +96,9 @@ def hit_rate_for_pd_ratio(p: Params, output_share: float) -> float:
     Prefill GPUs = M / (prefill_tps * k), decode GPUs = O / (decode_tps * k), same k.
     Setting prefill/decode = pd_ratio and solving for M gives the hit rate.
     """
+    # subhadipmitra@: gotcha. Prefill GPUs are charged only for misses, so the 140-token
+    # decoder replay that every hit also pays is not counted. At 95%+ hit rates that is a
+    # real undercount of prefill work, and it pushes the solved hit rate up slightly.
     o = output_share
     misses_over_inputs = p.pd_ratio * o * p.prefill_tps_gpu / (p.decode_tps_gpu * (1.0 - o))
     return max(0.0, 1.0 - misses_over_inputs)
@@ -115,12 +132,17 @@ def gpus_behind_store(p: Params) -> tuple[float, float]:
     Low end: the 100 PiB is physical, so logical capacity is 100 / 1.2.
     High end: the 100 PiB is already logical.
     """
+    # subhadipmitra@: the Q&A does not say whether "~100 PiB" is raw SSD or logical capacity,
+    # so both ends are returned. Do not collapse this to one number.
     per_gpu = p.storage_per_gpu_tb * 1e12
     return p.store_pib * PIB / p.ec_overhead / per_gpu, p.store_pib * PIB / per_gpu
 
 
 def storage_check(p: Params, pt: Point) -> dict:
     cap_tokens = p.store_pib * PIB / (p.bytes_per_token * p.ec_overhead)
+    # subhadipmitra@: outputs count as written because the Q&A stores SWA state at the end of
+    # decode, which only makes sense if the decoded tokens' block KV is kept too. If you
+    # believe outputs are not persisted, drop pt.outputs; the needed PiB falls a little.
     written_per_day = pt.misses + pt.outputs   # misses are computed and written; decode output is written too
     per_gpu_day_bytes = p.bytes_per_token * written_per_day / pt.gpus_from_revenue
     return {
@@ -161,6 +183,9 @@ def february_2025() -> dict:
     """
     inp, hit, out = 608e9, 342e9, 168e9
     miss, tot, gpus = inp - hit, inp + out, 226.75 * 8
+    # subhadipmitra@: R1 prices for all traffic, V3 included, because that is how DeepSeek
+    # computed its own "theoretical" revenue. It overstates real 2025 revenue (V3 was
+    # cheaper, and there were discounts); use it for shares, not for absolute dollars.
     p_hit, p_miss, p_out = 0.14, 0.55, 2.19          # R1 list prices, $/M, the basis DeepSeek used
     rev = (p_hit * hit + p_miss * miss + p_out * out) / 1e6
     return {
@@ -214,6 +239,8 @@ def main() -> None:
     lo, hi_g = gpus_behind_store(p)
     print(f"\nGPUs behind the store: 100 PiB / 14.4 TB per GPU = {lo:,.0f} (100 PiB physical) to {hi_g:,.0f} (100 PiB logical)")
     print("Where the revenue-implied GPU count meets that range, per operating point:")
+    # subhadipmitra@: a fine sweep only for finding where the revenue line crosses the store
+    # band; the coarse `shares` list above is what the tables print.
     fine = [x / 10000 for x in range(10, 801)]   # 0.10% .. 8.00% output share
     meet = {}
     for dec_label, dec in (("60/rank 14.5K", 14_466), ("64/rank 15.7K", 15_700), ("128/rank 22.8K", 22_800), ("256/rank 26.2K", 26_200)):
